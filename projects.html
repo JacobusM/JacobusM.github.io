@@ -46,12 +46,269 @@
 						</header>
 						<section class="wrapper style5">
 							<div class="inner">
-								<h3 class="align-center">Under Construction</h3>
+								<h2>Simulated Unmanned Ground Vehicle (UGV)</h2>
+								<p>While assisting with graduate research in the Aerospace Systems Laboratory at my alma mater, I became particularly interested in the master’s thesis of a fellow student, where 3D object detection and machine learning algorithms would be implemented on one of the lab’s rover-like ground vehicles to have it navigate autonomously in a given environment. While the algorithms seemed to be in good working order, issues often arose with faulty batteries or motors, tedious sensor calibrations, and many other setbacks that often plague real-world testing. This in turn slows down the testing process and even distorts the results of these tests, since it is often not clear whether the fault lies with the algorithms or with the physical hardware. </p>
 								
-								<div class="align-center"><a style="border: none"><img src="/images/construction.png" width="200" height="200"></a></div>
+								<p>This project is a potential solution to that problem. Utilizing the Robot Operating System (ROS), I have developed a package that simulates an entire ground vehicle within the Gazebo simulation environment. This ground vehicle is identical to the vehicle used in the lab, and the same sensors on the real vehicle – namely a camera and LIDAR sensor – will also be simulated within this environment to feed the algorithms the necessary sensory inputs needed to properly direct the vehicle within the given environment. The advantages of such a simulation include faster testing cycles that allow for more tests to be done within a certain time frame as well as a lack of interference due to hardware problems; any issues found within the simulation can only be attributed to a software issue, which helps to speed up the debugging process. </p>
 
+								<div class="align-center"><a style="border: none"><img src="/images/pic04.jpg" width="505" height="389"></a></div>
+								</br>
+								<p>The image above shows a 3D CAD model of the lab’s ground vehicle assembled in SolidWorks. This model was converted into a mesh that was then used in a URDF file by using the “SolidWorks to URDF Exporter” plugin downloaded from the ROS.org website. This plugin essentially converts the SolidWorks model into a ROS package with various links, joints, visual properties, and collision properties being determined within the URDF file in the package. Various adjustments were made to the exported URDF file to account for certain orientation and placement errors made during the exporting process. The collision dimensions were also simplified to minimize computation time for the simulation, thereby reducing lag time when velocity commands were given to the vehicle.</p>
+								
+								<div class="col-12"><span class="image fit"><img src="images/pic05.png" alt="" /></span></div>
+								
+								<p>Various other items had to be added to the package for the simulation to run smoothly, including a Gazebo plugin, transmission sections to the URDF file (to allow for movement), controller plugins (for velocity inputs to be possible), and several nodes for controller integrations and state publishing. The camera sensor was also added to the simulation by adding the necessary sensor sections and plugins to the URDF file. The shape of the camera is a basic cube due to a limited need for aesthetics in preliminary simulations, however that can always be changed later. The LIDAR sensor must still be added to the simulated vehicle, once the calibration of the camera sensor is completed (which is currently underway). </p>
+								
+								<div class="col-12"><span class="image fit"><img src="images/pic06.png" alt="" /></span></div>
+								
+								<p>Several orange cups were also placed in front of the vehicle to test if the camera was indeed working and to run sensor calibrations before testing the algorithms. These cups were independently modeled and added as part of the .world file initiated by the launch file within the ROS package. The camera sensor captures images of these cups at a set rate and saves these images for calibration and machine learning processes. One of these captured images is shown below. </p>
+								
+								<div class="align-center"><a style="border: none"><img src="/images/pic07.png" width="295" height="258"></a></div>
+								</br>
+								<p>There are several improvements that must still be made to this simulation, but the vehicle can be successfully driven and steered at specific velocities. The camera sensor feeds images for calibration and processing, and once the LIDAR sensor is added to the simulation, all this sensor data can be fused and processed to drive the vehicle where it needs to go. </p>
+								
 							</div>
 						</section>
+						
+						<section class="wrapper style5">
+							<div class="inner">
+								<hr />
+								<h2>Obstacle Avoidance Testing Platform (Senior Design)</h2>
+								<p>For my undergraduate Senior Design class, I am currently part of a team tasked with the design – and prototyping of any mechanical device or machine that addresses a real-world problem and displays our engineering abilities. We were given the freedom to choose our own projects, and my team and I decided to design a stair-climbing robot that would be capable of carrying a load of up to 35 pounds up a standard flight of stairs in an autonomous manner. The project is mainly aimed at assisting the elderly or those with physical disabilities who are unable to carry heavy loads to their designated rooms or apartments, yet there are many more applications for a robot such as this.</p>
+								
+								<p>I am the Electronics lead for this project, thereby making me responsible for power distribution, electronics hardware, programming, and testing of all hardware and software on the robot. While the design of our platform was still ongoing, several of our components were being tested on a miniature treaded platform that was purchased online. The testing platform had to be affordable, easy to assemble, and have the same treaded, DC-motor configuration as that of our final platform. These tests are being conducted to ensure that our hardware components are in good working order and that our testing program is bug-less and easily transferable to our final robotic platform.</p>
+								
+								<p>Before the sensors and components could be assembled onto the testing platform, each component had to be individually tested to confirm that they function properly. The image below shows one of the preliminary tests conducted with the sonar sensors. All five sensors were connected to the micro-controller and an obstacle – in this case a large textbook – was placed at a known distance away from the sensors. The microcontroller was programmed to receive the respective pulses sent by each sensor, process those pulses into distance values, and then output those distances onto the serial monitor of a development environment implemented on a laptop.</p>
+								
+								<div class="align-center"><img src="images/pic08.jpg" alt="" /></div>
+								</br>
+								<p>Once the components were individually tested, they were all assembled onto the testing platform shown below. The lithium polymer battery system that would be used on the final platform would be too powerful and heavy for the testing platform, so eight nickel metal hydride (Ni-MH) batteries were placed inside a battery holder case and strapped to the bottom of the platform to provide power to the motors. This was a more affordable option for our testing needs. The sensors were arrayed in 45° increments to give the platform a wide range of distance-sensing capabilities, and once all the components were properly wired and powered, the process of programming the microcontroller and debugging the code could commence.</p>
+								</br>
+								<div class="col-6"><span class="image fit"><img src="images/pic02.jpg" alt="" /></span></div>
+								<div class="col-6"><span class="image fit"><img src="images/pic09.jpg" alt="" /></span></div>
+								</br>
+								<p>A receiver was also placed on the platform so that it could be controlled using an Fr-Sky transmitter. Frequent testing of the platform was undertaken to determine how certain changes to the program on the microcontroller would affect the performance of the platform. The formation of code for a Manual mode setting was the first set of code integrated onto the platform. Once the platform was able to consistently move forward or backward at variable speeds, turn, and even pivot on the same spot, the testing shifted to an Automatic mode setting. This mode essentially activates an obstacle-avoidance algorithm that maintains a set speed for the robot and adjusts the velocity of one or both motors when any obstacles (walls, humans, etc.) are within a certain proximity of the robot. A switch on the transmitter was configured to alternate between Manual mode and Autonomous mode as certain situations would require a manual override for practical or safety reasons. </p>
+								
+								<p>This testing platform is fully operational and – when in Autonomous mode – moves forward at a set speed and adjusts when needed to avoid collisions with surrounding obstacles in its environment. The importance of testing hardware was revealed through trial and error, and the integration of hardware and software needed for this platform to function properly was certainly the most interesting aspect of this project.</p>
+								
+								<p>The code implemented on the Elegoo micro-controller can be found on Github (check Contact page) and is also shown below:</p>
+								
+								<pre><code>#define RC_CH1_INPUT 12 
+#define RC_CH2_INPUT 11
+#define RC_CH3_INPUT 13
+ 
+//Pin numbers as wired onto micro-controller
+const int IN1 = 8;
+const int IN2 = 7;
+const int IN3 = 5;
+const int IN4 = 4;
+const int ENM1 = 9;
+const int ENM2 = 3;
+ 
+int trigPin1=30;
+int echoPin1=31;
+int trigPin2=32;
+int echoPin2=33;
+int trigPin3=34;
+int echoPin3=35;
+int trigPin4=36;
+int echoPin4=37;
+int trigPin5=38;
+int echoPin5=39;
+ 
+long duration1, distance1;
+long duration2, distance2;
+long duration3, distance3;
+long duration4, distance4;
+long duration5, distance5;
+ 
+float m1; //mapped speed for left motor from -200 to 200
+float m2; //mapped speed for right motor from -200 to 200
+float M1; //mapped speed for left motor from -100 to 100
+float M2; //mapped speed for right motor from -100 to 100
+float a;
+float b;
+ 
+void setup() {
+  Serial.begin(9600);
+ 
+  pinMode(RC_CH1_INPUT, INPUT);
+  pinMode(RC_CH2_INPUT, INPUT);
+  pinMode(RC_CH3_INPUT, INPUT);
+  pinMode (IN1, OUTPUT);
+  pinMode (IN2, OUTPUT);
+  pinMode (IN3, OUTPUT);
+  pinMode (IN4, OUTPUT);
+  pinMode (ENM1, OUTPUT);
+  pinMode (ENM2, OUTPUT);
+  pinMode(trigPin1, OUTPUT);
+  pinMode(echoPin1, INPUT);
+  pinMode(trigPin2, OUTPUT);
+  pinMode(echoPin2, INPUT);
+  pinMode(trigPin3, OUTPUT);
+  pinMode(echoPin3, INPUT);
+  pinMode(trigPin4, OUTPUT);
+  pinMode(echoPin4, INPUT);
+  pinMode(trigPin5, OUTPUT);
+  pinMode(echoPin5, INPUT);
+}
+ 
+void loop() {
+  //Read channels from transmitter
+  int CH1 = pulseIn(RC_CH1_INPUT, HIGH, 50000);
+  int CH2 = pulseIn(RC_CH2_INPUT, HIGH, 25000);
+  int CH3 = pulseIn(RC_CH3_INPUT, HIGH, 25000);
+  
+  //If transmitter is turned off, motors should not move
+  if (CH1 || CH2 &lt 800) {
+      m1 = 0;
+      m2 = 0;
+    }
+  //If manual mode is engaged
+  if (CH3 &lt 1500) {
+    a = map(CH1,988,2012,-100,100);
+    b = map(CH2,988,2012,-100,100);
+    m1 = 2*a+0.8*b;
+    m2 = 2*a-0.8*b;
+    
+    M1 = map(m1,-200,200,-100,100);
+    M2 = map(m2,-200,200,-100,100);
+    if (M1 &lt= 0){
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN2, HIGH);
+      m1 = 2*a-b;
+      M1 = map(m1,-200,200,-100,100);
+    }
+    else{
+      digitalWrite(IN1, HIGH);
+      digitalWrite(IN2, LOW);
+    }
+    
+    if (M2 &lt= 0){
+      digitalWrite(IN3, LOW);
+      digitalWrite(IN4, HIGH);
+      m2 = 2*a+b;
+      M2 = map(m2,-200,200,-100,100);
+    }
+    else{
+      digitalWrite(IN3, HIGH);
+      digitalWrite(IN4, LOW);
+    }
+  }
+  //If autonomous mode is engaged
+  else {
+    digitalWrite(trigPin1, HIGH);
+    delayMicroseconds(10); 
+    digitalWrite(trigPin1, LOW);
+    duration1 = pulseIn(echoPin1, HIGH);
+    distance1 = (duration1/2) / 29.1;
+    digitalWrite(trigPin2, HIGH);
+    delayMicroseconds(10); 
+    digitalWrite(trigPin2, LOW);
+    duration2 = pulseIn(echoPin2, HIGH);
+    distance2= (duration2/2) / 29.1;
+    digitalWrite(trigPin3, HIGH);
+    delayMicroseconds(10); 
+    digitalWrite(trigPin3, LOW);
+    duration3 = pulseIn(echoPin3, HIGH);
+    distance3= (duration3/2) / 29.1;
+    digitalWrite(trigPin4, HIGH);
+    delayMicroseconds(10); 
+    digitalWrite(trigPin4, LOW);
+    duration4 = pulseIn(echoPin4, HIGH);
+    distance4= (duration4/2) / 29.1;
+    digitalWrite(trigPin5, HIGH);
+    delayMicroseconds(10); 
+    digitalWrite(trigPin5, LOW);
+    duration5 = pulseIn(echoPin5, HIGH);
+    distance5= (duration5/2) / 29.1;
+ 
+    //Give initial speed to both motors
+    m1 = 100;
+    m2 = 100;
+    
+    if (distance1 &lt 30) { //If something is directly ahead of the platform and less that 30cm away: 
+      m1 = m1 - m1*((30 - distance1)/11.25);
+      m2 = m2 - m2*((30 - distance1)/11.25);
+    }
+    else { //Add to speed of both motors:
+      m1 = m1 + 10;
+      m2 = m2 + 10;
+    }
+    
+    if (distance2 &lt 40) { //If something is left and ahead (diagonally) of the platform and less that 40cm away: 
+      m1 = m1 + m1*((40 - distance2)/15);
+      m2 = m2 - m2*((40 - distance2)/15);
+    }
+    else { //Add to speed of both motors:
+      m1 = m1 + 10;
+      m2 = m2 + 10; 
+    }
+    if (distance3 &lt 40) { //If something is right and ahead (diagonally) of the platform and less that 40cm away:
+      m1 = m1 - m1*((40 - distance3)/15);
+      m2 = m2 + m2*((40 - distance3)/15);
+    }
+    else { //Add to speed of both motors:
+      m1 = m1 + 10;
+      m2 = m2 + 10;
+    }
+    if (distance4 &lt 20) { //If something is left of the platform and less that 20cm away: 
+      m1 = m1 + m1*((20 - distance4)/7.5);
+      m2 = m2 - m2*((20 - distance4)/7.5);
+    }
+    else { //Add to speed of both motors:
+      m1 = m1 + 10;
+      m2 = m2 + 10;
+    }
+    if (distance5 &lt 20) { //If something is right of the platform and less that 20cm away: 
+      m1 = m1 - m1*((20 - distance5)/7.5);
+      m2 = m2 + m2*((20 - distance5)/7.5);
+    }
+    else { //Add to speed of both motors:
+      m1 = m1 + 10;
+      m2 = m2 + 10;
+    }
+    //If motor velocity exceeds bounds of mapping, set to maximum possible velocity magnitude
+    if (m1 > 200) { m1 = 200; }
+    if (m1 &lt -200) { m1 = -200; }
+ 
+    if (m2 > 200) { m2 = 200; }
+    if (m2 &lt -200) { m2 = -200; }
+    
+    M1 = map(m1,-200,200,-100,100);
+    M2 = map(m2,-200,200,-100,100);
+ 
+    if (M1 &lt= 0){
+      digitalWrite(IN1, LOW);
+      digitalWrite(IN2, HIGH);
+    }
+    else{
+      digitalWrite(IN1, HIGH);
+      digitalWrite(IN2, LOW);
+    }
+    if (M2&lt=0){
+      digitalWrite(IN3, LOW);
+      digitalWrite(IN4, HIGH);
+    }
+    else{
+      digitalWrite(IN3, HIGH);
+      digitalWrite(IN4, LOW);
+    }
+  }
+  //If motor velocity exceeds bounds of mapping, set to maximum possible velocity magnitude
+  if (M1 > 100) { M1 = 100; }
+  if (M1 &lt -100) { M1 = -100; }
+  if (M2 > 100) { M2 = 100; }
+  if (M2 &lt -100) { M2 = -100; }
+  //Output velocity to motors
+  analogWrite(ENM1, map(abs(M1),0,100,0,255));
+  analogWrite(ENM2, map(abs(M2),0,100,0,255)); 
+  delay(50);
+}
+</code></pre>
+							</div>
+						</section>
+							
 					</article>
 
 				<!-- Footer -->
