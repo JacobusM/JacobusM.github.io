@@ -11,6 +11,21 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .imgbox {
+            display: grid;
+            height: 100%;
+        }
+        .center-fit {
+            max-width: 100%;
+            max-height: 100vh;
+            margin: auto;
+        }
+    </style>
 	</head>
 	<body class="is-preload">
 
@@ -51,7 +66,8 @@
 								
 								<p>This project is a potential solution to that problem. Utilizing the Robot Operating System (ROS), I have developed a package that simulates an entire ground vehicle within the Gazebo simulation environment. This ground vehicle is identical to the vehicle used in the lab, and the same sensors on the real vehicle – namely a camera and LIDAR sensor – will also be simulated within this environment to feed the algorithms the necessary sensory inputs needed to properly direct the vehicle within the given environment. The advantages of such a simulation include faster testing cycles that allow for more tests to be done within a certain time frame as well as a lack of interference due to hardware problems; any issues found within the simulation can only be attributed to a software issue, which helps to speed up the debugging process. </p>
 
-								<div class="align-center"><a style="border: none"><img src="/images/pic04.jpg" width="505" height="389"></a></div>
+								<div class="imgbox"><img class="center-fit" src='/images/pic04.png'></div>
+								
 								</br>
 								<p>The image above shows a 3D CAD model of the lab’s ground vehicle assembled in SolidWorks. This model was converted into a mesh that was then used in a URDF file by using the “SolidWorks to URDF Exporter” plugin downloaded from the ROS.org website. This plugin essentially converts the SolidWorks model into a ROS package with various links, joints, visual properties, and collision properties being determined within the URDF file in the package. Various adjustments were made to the exported URDF file to account for certain orientation and placement errors made during the exporting process. The collision dimensions were also simplified to minimize computation time for the simulation, thereby reducing lag time when velocity commands were given to the vehicle.</p>
 								
@@ -63,7 +79,7 @@
 								
 								<p>Several orange cups were also placed in front of the vehicle to test if the camera was indeed working and to run sensor calibrations before testing the algorithms. These cups were independently modeled and added as part of the .world file initiated by the launch file within the ROS package. The camera sensor captures images of these cups at a set rate and saves these images for calibration and machine learning processes. One of these captured images is shown below. </p>
 								
-								<div class="align-center"><a style="border: none"><img src="/images/pic07.png" width="295" height="258"></a></div>
+								<div class="imgbox"><img class="center-fit" src='/images/pic07.png'></div>
 								</br>
 								<p>There are several improvements that must still be made to this simulation, but the vehicle can be successfully driven and steered at specific velocities. The camera sensor feeds images for calibration and processing, and once the LIDAR sensor is added to the simulation, all this sensor data can be fused and processed to drive the vehicle where it needs to go. </p>
 								
